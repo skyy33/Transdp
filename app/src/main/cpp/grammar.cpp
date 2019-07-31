@@ -631,17 +631,23 @@ namespace sdptransform
 					// a=candidate:3289912957 2 udp 1845501695 193.84.77.194 60017 typ srflx raddr 192.168.34.75 rport 60017 generation 0 network-id 3 network-cost 10
 					// a=candidate:229815620 1 tcp 1518280447 192.168.150.19 60017 typ host tcptype active generation 0 network-id 3 network-cost 10
 					// a=candidate:3289912957 2 tcp 1845501695 193.84.77.194 60017 typ srflx raddr 192.168.34.75 rport 60017 tcptype passive generation 0 network-id 3 network-cost 10
+
+					   //a=candidate:1577908739 1 udp 2122260223 192.168.1.132 36009 typ host generation 0 ufrag L4bi network-id 3 network-cost 10
+						//a=candidate:842163049 1 udp 1686052607 122.115.227.30 3448 typ srflx raddr 192.168.1.132 rport 36009 generation 0 ufrag L4bi network-id 3 network-cost 10
+						//a=candidate:3723398083 1 udp 41885439 39.97.72.29 51284 typ relay raddr 43.224.212.104 rport 8360 generation 0 ufrag L4bi network-id 3 network-cost 10
+						//a=candidate:842163049 1 udp 1686052607 43.224.212.104 8360 typ srflx raddr 192.168.1.132 rport 36009 generation 0 ufrag L4bi network-id 3 network-cost 10
+
 					{
 						// name:
 						"",
 						// push:
 						"candidates",
 						// reg:
-						std::regex("^candidate:(\\S*) (\\d*) (\\S*) (\\d*) (\\S*) (\\d*) typ (\\S*)(?: raddr (\\S*) rport (\\d*))?(?: tcptype (\\S*))?(?: generation (\\d*))?(?: network-id (\\d*))?(?: network-cost (\\d*))?"),
+						std::regex("^candidate:(\\S*) (\\d*) (\\S*) (\\d*) (\\S*) (\\d*) typ (\\S*)(?: raddr (\\S*) rport (\\d*))?(?: tcptype (\\S*))?(?: generation (\\d*))?(?: ufrag (\\S*))?(?: network-id (\\d*))?(?: network-cost (\\d*))?"),
 						// names:
-						{ "foundation", "component", "transport", "priority", "ip", "port", "type", "raddr", "rport", "tcptype", "generation", "network-id", "network-cost" },
+						{ "foundation", "component", "transport", "priority", "ip", "port", "type", "raddr", "rport", "tcptype", "generation","ufrag", "network-id", "network-cost" },
 						// types:
-						{ 's', 'd', 's', 'd', 's', 'd', 's', 's', 'd', 's', 'd', 'd', 'd', 'd' },
+						{ 's', 'd', 's', 'd', 's', 'd', 's', 's', 'd', 's', 'd', 's', 'd', 'd' },
 						// format:
 						"",
 						// formatFunc:
@@ -657,7 +663,7 @@ namespace sdptransform
 
 							if (hasValue(o, "generation"))
 								str += " generation %d";
-
+                            str += hasValue(o,"ufrag") ? " ufrag %s" : "%v";
 							str += hasValue(o, "network-id") ? " network-id %d" : "%v";
 							str += hasValue(o, "network-cost") ? " network-cost %d" : "%v";
 
@@ -704,7 +710,7 @@ namespace sdptransform
 						// push:
 						"",
 						// reg:
-						std::regex("^ice-options:(\\S*)"),
+						std::regex("^ice-options:(.*)"),
 						// names:
 						{ },
 						// types:
